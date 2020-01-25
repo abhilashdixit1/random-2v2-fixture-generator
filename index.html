@@ -44,7 +44,7 @@
 			text-align: center;
 		}
 		.table-column{
-			max-width: 70%;
+			max-width: 90%;
 			margin: 0 auto;
 			display: flex;
 			justify-content: space-between;
@@ -102,7 +102,7 @@
 				fixture_area_div.innerHTML = '';
 				player_area_div.innerHTML = '<div class="table-column"><h3>Player Name</h3><h3>Maximum Matches</h3></div>';
 				for(var i=1;i<=players;i++){
-					player_area_div.innerHTML = player_area_div.innerHTML + `<div class="table-column"><input type="text"class="player-name" name="player-name" value="Player${i}" size=40><input type="number" class="player-match" name="player-match" value="1" size=10></div><br>`;
+					player_area_div.innerHTML = player_area_div.innerHTML + `<div class="table-column"><input type="text"class="player-name" name="player-name" value="Player${i}" size=20><input type="number" class="player-match" name="player-match" value="1" size=3></div><br>`;
 				}
 				player_area_div.innerHTML = player_area_div.innerHTML + '<button class="generate-fixtures" onclick="generateFixtures()">Generate Fixtures</button>'
 			}
@@ -138,7 +138,7 @@
 			for(;(counter<counter_final && l<500);l++){
 			    if(m.length==4){
 			    	counter++;
-			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h2>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h2>`
+			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h4>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h4>`
 			        b.push([m[0],m[1]])
 			        b.push([m[2],m[3]])
 			        m = [];
@@ -189,7 +189,7 @@
 			for(;counter<counter_final;){
 				if(m.length==4){
 			    	counter++;
-			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h2>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h2>`
+			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h4>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h4>`
 			        m = [];
 			        var x = new Set();
 			        playerArray2.map(ele => {
