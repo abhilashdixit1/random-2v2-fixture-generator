@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fixture Generator</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:700|Muli&display=swap" rel="stylesheet">
+	<style type="text/css">
+		body{
+			margin: 0;
+			color: white;
+			font-family: 'Muli', sans-serif;
+
+			text-align: center;
+		}
+		h1{
+			font-family: 'Montserrat', sans-serif;
+			font-size: 2.5em;
+		}
+		select{
+			font-size: 1.5em;
+			width:70%;
+			background: white;
+			color: #2d2c2c;
+		}
+		.select-button{
+		    padding: 10px 30px;
+		    font-size: 1em;
+		    border-radius: 4px;
+		}
+		#particles-js {
+			z-index: -1;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: #2d2c2c;
+			background-image: url("");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: 50% 50%;
+			top:0;
+		}
+	</style>
+</head>
+<body>
+	<div id="particles-js"></div>
+	<br><br><br>
+	<h1>Generate Truly Random 2 v 2 Fixtures for any Tournament</h1>
+	<h2>No repeating team and configure maximum matches any one wants to play</h2>
+	<select>
+		<option value = '0'>Select No. of Players</option>
+		<option value="4">4 players</option>
+		<option value="5">5 players</option>
+		<option value="6">6 players</option>
+		<option value="7">7 players</option>
+		<option value="8">8 players</option>
+		<option value="9">9 players</option>
+		<option value="10">10 players</option>
+		<option value="11">11 players</option>
+		<option value="12">12 players</option>
+		<option value="13">13 players</option>
+		<option value="14">14 players</option>
+		<option value="15">15 players</option>
+		<option value="16">16 players</option>
+		<option value="17">17 players</option>
+		<option value="18">18 players</option>
+		<option value="19">19 players</option>
+		<option value="20">20 players</option>
+	</select>
+	<br><br><br>
+	<button class="select-button" onclick="submitclicked()">Select</button>
+	<script src="particles.js"></script>
+	<script src="app.js"></script>
+	<script type="text/javascript">
+		var submitclicked = () => {
+			var dropDown = document.getElementsByTagName('select')[0];
+			var players = dropDown.options[dropDown.selectedIndex].value;
+			window.alert(players);
+		}
+	</script>
+</body>
+</html>
