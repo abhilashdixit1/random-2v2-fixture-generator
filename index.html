@@ -15,6 +15,9 @@
 			font-family: 'Montserrat', sans-serif;
 			font-size: 2.5em;
 		}
+		.margin-10{
+			margin: 10px;
+		}
 		select{
 			font-size: 1.5em;
 			width:70%;
@@ -28,24 +31,42 @@
 		}
 		#particles-js {
 			z-index: -1;
-			position: absolute;
+			position: fixed;
 			width: 100%;
 			height: 100%;
 			background-color: #2d2c2c;
 			background-image: url("");
 			background-repeat: no-repeat;
 			background-size: cover;
-			background-position: 50% 50%;
 			top:0;
+		}
+		.player-area{
+			text-align: center;
+		}
+		.table-column{
+			max-width: 70%;
+			margin: 0 auto;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.player-name, .player-match{
+			padding: 5px 10px;
+		    font-size: 1em;
+		}
+		@media screen and (min-width: 720px){
+			.table-column{
+				max-width: 50%;
+			}
 		}
 	</style>
 </head>
 <body>
 	<div id="particles-js"></div>
-	<br><br><br>
-	<h1>Generate Truly Random 2 v 2 Fixtures for any Tournament</h1>
-	<h2>No repeating team and configure maximum matches any one wants to play</h2>
-	<select>
+	<h1 class="margin-10">Generate Truly Random 2 v 2 Fixtures for any Tournament</h1>
+	<h2 class="margin-10">No repeating team and configure maximum matches any one wants to play</h2>
+	<br>
+	<select class="select-player" onchange="submitclicked()">
 		<option value = '0'>Select No. of Players</option>
 		<option value="4">4 players</option>
 		<option value="5">5 players</option>
@@ -65,15 +86,130 @@
 		<option value="19">19 players</option>
 		<option value="20">20 players</option>
 	</select>
-	<br><br><br>
-	<button class="select-button" onclick="submitclicked()">Select</button>
+	<div class="player-area">
+	</div>
+	<div class="fixture-area">
+	</div>
 	<script src="particles.js"></script>
 	<script src="app.js"></script>
 	<script type="text/javascript">
-		var submitclicked = () => {
+		var player_area_div = document.getElementsByClassName('player-area')[0];
+		var fixture_area_div = 	document.getElementsByClassName('fixture-area')[0];
+		var submitclicked = (e) => {
 			var dropDown = document.getElementsByTagName('select')[0];
 			var players = dropDown.options[dropDown.selectedIndex].value;
-			window.alert(players);
+			if(players > 0){
+				fixture_area_div.innerHTML = '';
+				player_area_div.innerHTML = '<div class="table-column"><h3>Player Name</h3><h3>Maximum Matches</h3></div>';
+				for(var i=1;i<=players;i++){
+					player_area_div.innerHTML = player_area_div.innerHTML + `<div class="table-column"><input type="text"class="player-name" name="player-name" value="Player${i}" size=40><input type="number" class="player-match" name="player-match" value="1" size=10></div><br>`;
+				}
+				player_area_div.innerHTML = player_area_div.innerHTML + '<button class="generate-fixtures" onclick="generateFixtures()">Generate Fixtures</button>'
+			}
+			else {
+				window.alert('Please enter more than 0 players');
+			}
+		}
+		var rand = (num, fluctuation) => {
+			    return fluctuation == 0 ? (num) : ((num + ((Math.random() * 100) % fluctuation)).toFixed(0)) ;
+		}
+		var generatePlayerArray = () => {
+			var playerNames = document.getElementsByClassName('player-name');
+			var playerMatches = document.getElementsByClassName('player-match');
+			
+			var playerArray = [];
+	
+			for(var j=0;j<playerNames.length;j++){
+				if(Number(playerMatches[j].value) !== NaN)
+				for(var k=0;k<Number(playerMatches[j].value);k++){
+					playerArray.push(playerNames[j].value)
+				}	
+			}
+			return playerArray
+		}
+		var generateFixtures = () => {
+			fixture_area_div.innerHTML = '';
+			var playerArray = generatePlayerArray();
+			var m = [];
+			var b = [];
+			var counter_final = parseInt(playerArray.length/4);
+			var counter = 0
+			var l = 0
+			for(;(counter<counter_final && l<500);l++){
+			    if(m.length==4){
+			    	counter++;
+			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h2>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h2>`
+			        b.push([m[0],m[1]])
+			        b.push([m[2],m[3]])
+			        m = [];
+			        var x = new Set();
+			        playerArray.forEach(ele => {
+			        	x.add(ele)
+			        })
+			        if(x.size < 4){
+			        	break;
+			        }
+			    }
+			    else{
+			        var rand_num = rand(0,playerArray.length-1)
+			        if(m.indexOf(playerArray[rand_num]) == -1){
+			            m.push(playerArray[rand_num])
+			            playerArray.splice(rand_num, 1)
+			        }
+			        if(m.length == 2){
+			            if(b.some(r => (JSON.stringify(r) == JSON.stringify([m[0],m[1]]) || JSON.stringify(r) == JSON.stringify([m[1],m[0]])))){
+			                playerArray.push(m[1])
+			                m.splice(1,1);
+			                l--;
+			            }
+			        }
+			        if(m.length == 4){
+			            if(b.some(r => JSON.stringify(r) == JSON.stringify([m[2],m[3]]) || b.some(r => JSON.stringify(r) == JSON.stringify([m[3],m[2]]) ))){
+			                playerArray.push(m[3],m[1])
+			                m.splice(3,1);
+			                m.splice(1,1);
+			                l--;
+			            }
+			        }
+			    }
+			}
+			if(l==500){
+				if(window.confirm('Sorry could not gerenate truly random, should I generate with some repeated teams')){
+					generateNotRandomFixtures();
+				}
+			}
+			clearPlayerArea()
+		}
+		var generateNotRandomFixtures = () => {
+			fixture_area_div.innerHTML = '';
+			var playerArray2 = generatePlayerArray();
+			var m = [];
+			var counter_final = parseInt(playerArray2.length/4);
+			var counter = 0
+			for(;counter<counter_final;){
+				if(m.length==4){
+			    	counter++;
+			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h2>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h2>`
+			        m = [];
+			        var x = new Set();
+			        playerArray2.map(ele => {
+			        	x.add(ele)
+			        })
+			        if(x.size < 4){
+			        	break;
+			        }
+			    }
+			    else{
+			        var rand_num = rand(0,playerArray2.length-1)
+			        if(m.indexOf(playerArray2[rand_num]) == -1){
+			            m.push(playerArray2[rand_num])
+			            playerArray2.splice(rand_num, 1)
+			        }
+			    }
+			}
+		}
+		var clearPlayerArea = () => {
+			player_area_div.innerHTML = ''
 		}
 	</script>
 </body>
