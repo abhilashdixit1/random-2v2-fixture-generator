@@ -20,21 +20,28 @@
 		}
 		select{
 			font-size: 1.5em;
-			width:70%;
-			background: white;
+			width: 30%;
+			height: 30px;
+			background: #e7747496;
 			color: #2d2c2c;
+			border-radius: 10px;
+			border: 0px;
+			outline: 0px;
+			font-size: 15px;
+			color: white;
+			margin-left: 35px;
 		}
 		.generate-fixtures{
-		    padding: 10px 30px;
-		    font-size: 1em;
-		    border-radius: 4px;
+			padding: 10px 30px;
+			font-size: 1em;
+			border-radius: 4px;
 		}
 		#particles-js {
 			z-index: -1;
 			position: fixed;
 			width: 100%;
 			height: 100%;
-			background-color: #2d2c2c;
+			background-color: black;
 			background-image: url("");
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -52,40 +59,130 @@
 		}
 		.player-name, .player-match{
 			padding: 5px 10px;
-		    font-size: 1em;
+			font-size: 1em;
+			border: 0px;
+			outline: 0px;
+			border-radius: 10px;
+			border: 1px solid rgb(231, 247, 14);
+
 		}
 		@media screen and (min-width: 720px){
 			.table-column{
 				max-width: 50%;
 			}
 		}
+
+
+		.player_select {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 100px;
+
+		}
+
+		.player_inputs {
+			font-size: 20px;
+			font-weight: bold;
+			width: 217px;
+			margin-bottom: 30px;
+		}
+
+		.fixture-area {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+
+		}
+
+		.match_detail {
+			display: flex;
+			flex-direction: column;
+			width: 300px;
+			height: 100px;
+			justify-content: center;
+			background-color: #e7747496;
+			border-radius: 10px;
+			margin: 10px;
+			padding-bottom: 10px;
+		}
+
+		.match_number {
+			text-align: left;
+			margin-left: 5px;
+			color: black;
+			height: 20px;
+		}
+
+		.generate-fixtures {
+			background-color: #e7747496;
+			border: none;
+			outline: none;
+			border-radius: 20px;
+			color: white;
+		}
+
+
+
+		.info {
+			margin-left: 20%;
+			margin-right: 20%;
+			margin-bottom: 50px;
+			margin-top: 50px;
+			background-color: rgb(56 53 53 / 30%);
+			display: flex;
+			align-items: center;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: red;
+			box-shadow: 5px 5px 5px 0px #1f1e1e;
+		}
+
+		.header {
+			height: 10vh;
+			background-color: black;
+			color: white;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-weight: bolder;
+			font-size: 30px;
+
+		}
 	</style>
 </head>
 <body>
+	<header class="header">Fixute Genereator</header>
 	<div id="particles-js"></div>
-	<h1 class="margin-10">Generate Truly Random 2 v 2 Fixtures for any Tournament</h1>
-	<h2 class="margin-10">No repeating team and configure maximum matches any one wants to play</h2>
+	<div class="info">
+		<div>A truly random 2v2 fixture generator ,which allow to you to generate fixture for any tournament
+			with facility to select maximum matches for a player. The fixture generates totally random mathces as per
+			given
+			players and their maximum matches wiathout repeating a team.</div>
+	</div>
 	<br>
-	<select class="select-player" onchange="submitclicked()">
-		<option value = '0'>Select No. of Players</option>
-		<option value="4">4 players</option>
-		<option value="5">5 players</option>
-		<option value="6">6 players</option>
-		<option value="7">7 players</option>
-		<option value="8">8 players</option>
-		<option value="9">9 players</option>
-		<option value="10">10 players</option>
-		<option value="11">11 players</option>
-		<option value="12">12 players</option>
-		<option value="13">13 players</option>
-		<option value="14">14 players</option>
-		<option value="15">15 players</option>
-		<option value="16">16 players</option>
-		<option value="17">17 players</option>
-		<option value="18">18 players</option>
-		<option value="19">19 players</option>
-		<option value="20">20 players</option>
-	</select>
+	<div class="player_select">
+		<lable>For how many players do you want to generate the fixture ?</lable>
+		<select class="select-player" onchange="submitclicked()">
+			<option value='0'>Select No. of Players</option>
+			<option value="4">4 players</option>
+			<option value="5">5 players</option>
+			<option value="6">6 players</option>
+			<option value="7">7 players</option>
+			<option value="8">8 players</option>
+			<option value="9">9 players</option>
+			<option value="10">10 players</option>
+			<option value="11">11 players</option>
+			<option value="12">12 players</option>
+			<option value="13">13 players</option>
+			<option value="14">14 players</option>
+			<option value="15">15 players</option>
+			<option value="16">16 players</option>
+			<option value="17">17 players</option>
+			<option value="18">18 players</option>
+			<option value="19">19 players</option>
+			<option value="20">20 players</option>
+		</select>
+	</div>
 	<div class="player-area">
 	</div>
 	<div class="fixture-area">
@@ -94,13 +191,13 @@
 	<script src="app.js"></script>
 	<script type="text/javascript">
 		var player_area_div = document.getElementsByClassName('player-area')[0];
-		var fixture_area_div = 	document.getElementsByClassName('fixture-area')[0];
+		var fixture_area_div =  document.getElementsByClassName('fixture-area')[0];
 		var submitclicked = (e) => {
 			var dropDown = document.getElementsByTagName('select')[0];
 			var players = dropDown.options[dropDown.selectedIndex].value;
 			if(players > 0){
 				fixture_area_div.innerHTML = '';
-				player_area_div.innerHTML = '<div class="table-column"><h3>Player Name</h3><h3>Maximum Matches</h3></div>';
+				player_area_div.innerHTML = '<div class="table-column"><div class="player_inputs">Player Name</div><div class="player_inputs">Maximum Matches</div></div>';
 				for(var i=1;i<=players;i++){
 					player_area_div.innerHTML = player_area_div.innerHTML + `<div class="table-column"><input type="text"class="player-name" name="player-name" value="Player${i}" size=20><input type="number" class="player-match" name="player-match" value="1" size=3></div><br>`;
 				}
@@ -111,19 +208,19 @@
 			}
 		}
 		var rand = (num, fluctuation) => {
-			    return fluctuation == 0 ? (num) : ((num + ((Math.random() * 100) % fluctuation)).toFixed(0)) ;
+			return fluctuation == 0 ? (num) : ((num + ((Math.random() * 100) % fluctuation)).toFixed(0)) ;
 		}
 		var generatePlayerArray = () => {
 			var playerNames = document.getElementsByClassName('player-name');
 			var playerMatches = document.getElementsByClassName('player-match');
-			
+
 			var playerArray = [];
-	
+
 			for(var j=0;j<playerNames.length;j++){
 				if(Number(playerMatches[j].value) !== NaN)
-				for(var k=0;k<Number(playerMatches[j].value);k++){
-					playerArray.push(playerNames[j].value)
-				}	
+					for(var k=0;k<Number(playerMatches[j].value);k++){
+						playerArray.push(playerNames[j].value)
+					}
 			}
 			return playerArray
 		}
@@ -136,42 +233,43 @@
 			var counter = 0
 			var l = 0
 			for(;(counter<counter_final && l<500);l++){
-			    if(m.length==4){
-			    	counter++;
-			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h4>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h4>`
-			        b.push([m[0],m[1]])
-			        b.push([m[2],m[3]])
-			        m = [];
-			        var x = new Set();
-			        playerArray.forEach(ele => {
-			        	x.add(ele)
-			        })
-			        if(x.size < 4){
-			        	break;
-			        }
-			    }
-			    else{
-			        var rand_num = rand(0,playerArray.length-1)
-			        if(m.indexOf(playerArray[rand_num]) == -1){
-			            m.push(playerArray[rand_num])
-			            playerArray.splice(rand_num, 1)
-			        }
-			        if(m.length == 2){
-			            if(b.some(r => (JSON.stringify(r) == JSON.stringify([m[0],m[1]]) || JSON.stringify(r) == JSON.stringify([m[1],m[0]])))){
-			                playerArray.push(m[1])
-			                m.splice(1,1);
-			                l--;
-			            }
-			        }
-			        if(m.length == 4){
-			            if(b.some(r => JSON.stringify(r) == JSON.stringify([m[2],m[3]]) || b.some(r => JSON.stringify(r) == JSON.stringify([m[3],m[2]]) ))){
-			                playerArray.push(m[3],m[1])
-			                m.splice(3,1);
-			                m.splice(1,1);
-			                l--;
-			            }
-			        }
-			    }
+				if(m.length==4){
+					counter++;
+					fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<div class="match_detail"><div class="match_number">Match ${counter}</div> <div class="player_detail">${m[0]}
+					 						   & ${m[1]}</div> vs <div class="player_detail">${m[2]} & ${m[3]}</div></div>`
+					b.push([m[0],m[1]])
+					b.push([m[2],m[3]])
+					m = [];
+					var x = new Set();
+					playerArray.forEach(ele => {
+						x.add(ele)
+					})
+					if(x.size < 4){
+						break;
+					}
+				}
+				else{
+					var rand_num = rand(0,playerArray.length-1)
+					if(m.indexOf(playerArray[rand_num]) == -1){
+						m.push(playerArray[rand_num])
+						playerArray.splice(rand_num, 1)
+					}
+					if(m.length == 2){
+						if(b.some(r => (JSON.stringify(r) == JSON.stringify([m[0],m[1]]) || JSON.stringify(r) == JSON.stringify([m[1],m[0]])))){
+							playerArray.push(m[1])
+							m.splice(1,1);
+							l--;
+						}
+					}
+					if(m.length == 4){
+						if(b.some(r => JSON.stringify(r) == JSON.stringify([m[2],m[3]]) || b.some(r => JSON.stringify(r) == JSON.stringify([m[3],m[2]]) ))){
+							playerArray.push(m[3],m[1])
+							m.splice(3,1);
+							m.splice(1,1);
+							l--;
+						}
+					}
+				}
 			}
 			if(l==500){
 				if(window.confirm('Sorry could not gerenate truly random, should I generate with some repeated teams')){
@@ -188,24 +286,24 @@
 			var counter = 0
 			for(;counter<counter_final;){
 				if(m.length==4){
-			    	counter++;
-			      	fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h4>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h4>`
-			        m = [];
-			        var x = new Set();
-			        playerArray2.map(ele => {
-			        	x.add(ele)
-			        })
-			        if(x.size < 4){
-			        	break;
-			        }
-			    }
-			    else{
-			        var rand_num = rand(0,playerArray2.length-1)
-			        if(m.indexOf(playerArray2[rand_num]) == -1){
-			            m.push(playerArray2[rand_num])
-			            playerArray2.splice(rand_num, 1)
-			        }
-			    }
+					counter++;
+					fixture_area_div.innerHTML = fixture_area_div.innerHTML + `<h4>Match ${counter}: <b>${m[0]}</b> and <b>${m[1]}</b> vs <b>${m[2]}</b> and <b>${m[3]}</b></h4>`
+					m = [];
+					var x = new Set();
+					playerArray2.map(ele => {
+						x.add(ele)
+					})
+					if(x.size < 4){
+						break;
+					}
+				}
+				else{
+					var rand_num = rand(0,playerArray2.length-1)
+					if(m.indexOf(playerArray2[rand_num]) == -1){
+						m.push(playerArray2[rand_num])
+						playerArray2.splice(rand_num, 1)
+					}
+				}
 			}
 		}
 		var clearPlayerArea = () => {
